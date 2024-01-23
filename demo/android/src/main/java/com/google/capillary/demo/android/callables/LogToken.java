@@ -16,7 +16,7 @@
 
 package com.google.capillary.demo.android.callables;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.concurrent.Callable;
 
 /**
@@ -26,6 +26,6 @@ public final class LogToken implements Callable<String> {
 
   @Override
   public String call() throws Exception {
-    return FirebaseInstanceId.getInstance().getToken();
+    return FirebaseMessaging.getInstance().getToken().getResult();
   }
 }

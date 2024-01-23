@@ -17,28 +17,28 @@
 package com.google.capillary.demo.android;
 
 import android.util.Log;
+import androidx.annotation.NonNull;
 import com.google.capillary.demo.common.AddOrUpdateUserRequest;
 import com.google.capillary.demo.common.DemoServiceGrpc;
 import com.google.capillary.demo.common.DemoServiceGrpc.DemoServiceBlockingStub;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 import io.grpc.ManagedChannel;
 import java.io.IOException;
 
 /**
- * Extends the {@link FirebaseInstanceIdService} to register refreshed IID tokens with the server.
+ * Extends the {@link FirebaseMessagingService} to register refreshed IID tokens with the server.
  * The communication with the server is done via gRPC.
  */
-public final class DemoFiidService extends FirebaseInstanceIdService {
+public final class DemoFiidService extends FirebaseMessagingService {
 
   private static final String TAG = DemoFiidService.class.getSimpleName();
 
   @Override
-  public void onTokenRefresh() {
-    String newToken = FirebaseInstanceId.getInstance().getToken();
-    Log.d(TAG, "new token received: " + newToken);
+  public void onNewToken(@NonNull String token) {
+    Log.d(TAG, "new token received: " + token);
 
-    sendRegistrationToServer(newToken);
+    sendRegistrationToServer(token);
   }
 
   private void sendRegistrationToServer(String token) {

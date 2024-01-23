@@ -19,7 +19,7 @@ package com.google.capillary.demo.android.callables;
 import com.google.capillary.demo.common.AddOrUpdateUserRequest;
 import com.google.capillary.demo.common.DemoServiceGrpc;
 import com.google.capillary.demo.common.DemoServiceGrpc.DemoServiceBlockingStub;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import io.grpc.ManagedChannel;
 import java.util.concurrent.Callable;
 
@@ -47,7 +47,7 @@ public final class RegUser implements Callable<String> {
     DemoServiceBlockingStub blockingStub = DemoServiceGrpc.newBlockingStub(channel);
     AddOrUpdateUserRequest request = AddOrUpdateUserRequest.newBuilder()
         .setUserId(userId)
-        .setToken(FirebaseInstanceId.getInstance().getToken()).build();
+        .setToken(FirebaseMessaging.getInstance().getToken().getResult()).build();
     blockingStub.addOrUpdateUser(request);
     return String.format("registered user with:\n%s", request);
   }

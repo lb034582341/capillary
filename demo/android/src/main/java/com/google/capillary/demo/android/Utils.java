@@ -107,7 +107,7 @@ public final class Utils {
 
     Intent intent = new Intent(context, MainActivity.class);
     PendingIntent pendingIntent = PendingIntent.getActivity(
-        context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
     Notification.Builder notificationBuilder = new Notification.Builder(context)
         .setContentTitle(secureNotification.getTitle())

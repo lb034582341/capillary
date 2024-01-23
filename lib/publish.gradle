@@ -1,9 +1,6 @@
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 def libraryVersion = '1.0.0'
-def bintrayRepo = 'capillary'
-def bintrayPackage = 'lib'
 
 def pomConfig = {
     url 'https://github.com/google/capillary'
@@ -48,22 +45,6 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-        }
-    }
-}
-
-bintray {
-    user = project.hasProperty('bintray.user') ?
-            project.property('bintray.user') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintray.apikey') ?
-            project.property('bintray.apikey') : System.getenv('BINTRAY_APIKEY')
-    publications = ['MavenLib']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayPackage
-        userOrg = 'google'
-        version {
-            name = libraryVersion
         }
     }
 }

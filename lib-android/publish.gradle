@@ -1,9 +1,7 @@
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
 def libraryVersion = '1.0.0'
-def bintrayRepo = 'capillary'
-def bintrayPackage = 'lib-android'
+
+
+apply plugin: 'maven'
 
 group = 'com.google.capillary'
 version = libraryVersion
@@ -37,22 +35,6 @@ install {
                 developerConnection 'scm:git:https://github.com/google/capillary.git'
                 url 'https://github.com/google/capillary'
             }
-        }
-    }
-}
-
-bintray {
-    user = project.hasProperty('bintray.user') ?
-            project.property('bintray.user') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintray.apikey') ?
-            project.property('bintray.apikey') : System.getenv('BINTRAY_APIKEY')
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayPackage
-        userOrg = 'google'
-        version {
-            name = libraryVersion
         }
     }
 }

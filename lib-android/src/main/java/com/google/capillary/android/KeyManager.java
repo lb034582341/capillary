@@ -18,7 +18,7 @@ package com.google.capillary.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import com.google.capillary.AuthModeUnavailableException;
 import com.google.capillary.NoSuchKeyException;
 import com.google.capillary.internal.CapillaryPublicKey;

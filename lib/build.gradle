@@ -1,7 +1,6 @@
 buildscript {
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath("com.google.protobuf:protobuf-gradle-plugin:0.9.4")
     }
 }
 
@@ -9,10 +8,10 @@ apply plugin: 'java-library'
 apply plugin: 'com.google.protobuf'
 
 dependencies {
-    implementation 'com.google.crypto.tink:tink:1.1.0'
-    implementation 'com.google.crypto.tink:apps-webpush:1.1.0'
-    implementation 'com.google.protobuf:protobuf-java:3.4.0'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.crypto.tink:tink:1.12.0'
+    implementation 'com.google.crypto.tink:apps-webpush:1.10.0'
+    implementation 'com.google.protobuf:protobuf-java:3.25.2'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 protobuf {
@@ -21,13 +20,15 @@ protobuf {
     }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+tasks.register('sourcesJar', Jar) {
+    dependsOn classes
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+tasks.register('javadocJar', Jar) {
+    dependsOn javadoc
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -46,3 +47,8 @@ idea {
 }
 
 apply from: 'publish.gradle'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}

@@ -1,39 +1,31 @@
-buildscript {
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-    }
-}
-
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
+    compileSdk 34
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 34
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    namespace 'com.google.capillary.android'
 }
 
 // Checkstyle doesn't run automatically with android
-task checkstyleMain(type: Checkstyle) {
+tasks.register('checkstyleMain', Checkstyle) {
     source "src/main/java"
     include '**/*.java'
     classpath = files()
 }
-task checkStyleTest(type: Checkstyle) {
+tasks.register('checkStyleTest', Checkstyle) {
     source 'src/test/java'
     include '**/*.java'
     classpath = files()
 }
-task checkStyleAndroidTest(type: Checkstyle) {
+tasks.register('checkStyleAndroidTest', Checkstyle) {
     source 'src/androidTest/java'
     include '**/*.java'
     classpath = files()
@@ -47,23 +39,23 @@ dependencies {
     implementation('com.google.crypto.tink:tink-android:1.1.0', {
         exclude group: 'com.google.protobuf', module: '*'
     })
-    implementation('com.google.crypto.tink:apps-webpush:1.1.0', {
+    implementation('com.google.crypto.tink:apps-webpush:1.10.0', {
         exclude group: 'com.google.crypto.tink', module: '*'
     })
-    implementation 'com.google.protobuf:protobuf-java:3.4.0'
-    implementation 'joda-time:joda-time:2.9.9'
-    implementation 'com.android.support:support-annotations:27.1.1'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.protobuf:protobuf-java:3.25.2'
+    implementation 'joda-time:joda-time:2.12.6'
+    implementation 'com.android.support:support-annotations:28.0.0'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
 }
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
+tasks.register('sourcesJar', Jar) {
+    archiveClassifier = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadoc(type: Javadoc) {
+tasks.register('javadoc', Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += files(project.android.getBootClasspath())
     failOnError false
@@ -79,8 +71,9 @@ afterEvaluate {
 }
 */
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+tasks.register('javadocJar', Jar) {
+    dependsOn javadoc
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -89,4 +82,4 @@ artifacts {
     archives javadocJar
 }
 
-apply from: 'publish.gradle'
+//apply from: 'publish.gradle'
